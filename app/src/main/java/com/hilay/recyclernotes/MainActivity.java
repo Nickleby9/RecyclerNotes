@@ -1,5 +1,6 @@
 package com.hilay.recyclernotes;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -28,20 +29,17 @@ public class MainActivity extends AppCompatActivity implements NoteFragment.OnNo
     static ArrayList<NoteItem> notes = new ArrayList<>();
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d("@@@", "onSaveInstanceState");
-        outState.putInt("counter", counter);
-        outState.putString("current", tvTitle.getText().toString());
-        outState.putInt("pageCounter", pageCounter);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
+        Intent intent = getIntent();
+        if (intent.getExtras() != null){
+            int position = intent.getIntExtra("position", -1);
+            String title = intent.getStringExtra("title");
+            String content = intent.getStringExtra("content");
+            notes.set(position,new NoteItem(title,content));
+        }
         prefs = getSharedPreferences("Notes", MODE_PRIVATE);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         etNote = (EditText) findViewById(R.id.etNote);
@@ -52,14 +50,6 @@ public class MainActivity extends AppCompatActivity implements NoteFragment.OnNo
         NoteAdapter adapter = new NoteAdapter(this, NoteDataSource.getNotes());
         recycler.setLayoutManager(new LinearLayoutManager(this));
         recycler.setAdapter(adapter);
-
-
-        if (savedInstanceState != null) {
-            counter = savedInstanceState.getInt("counter");
-//            tvTitle.setText(savedInstanceState.getString("current"));
-//            etNote.setText(load(savedInstanceState.getString("current")));
-            pageCounter = savedInstanceState.getInt("pageCounter");
-        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -76,17 +66,6 @@ public class MainActivity extends AppCompatActivity implements NoteFragment.OnNo
         });
     }
 
-
-
-    private String loadTitle(String id) {
-        return prefs.getString(id + "title", "");
-    }
-
-    private String loadNote(String id) {
-        return prefs.getString(id = "note", "");
-    }
-
-
     @Override
     public void onNoteCreated(String title, String note) {
         notes.add(new NoteItem(title, note));
@@ -97,4 +76,5 @@ public class MainActivity extends AppCompatActivity implements NoteFragment.OnNo
     public static List<NoteItem> getList(){
         return notes;
     }
+
 }

@@ -19,7 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NoteDialog"></activity>
+        <activity android:name=".NoteDialog" />
+        <activity
+            android:name=".NoteDetails"
+            android:label="@string/title_activity_note_details"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hilay.recyclernotes.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

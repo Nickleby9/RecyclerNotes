@@ -72,15 +72,6 @@ public class NoteFragment extends DialogFragment {
 
     }
 
-//    public void save(String title, String note) {
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.putString(id + "title", title);
-//        editor.putString(id + "note", note);
-//        editor.apply();
-//        notes.add(new NoteItem(title, note));
-//    }
-
-
     OnNoteCreatedListener listener;
 
     public interface OnNoteCreatedListener{
