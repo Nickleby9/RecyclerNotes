@@ -66,8 +66,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                     int position = getAdapterPosition();
                     NoteItem note = data.get(position);
 
-                    Toast.makeText(itemView.getContext(), "" + note.getTitle(), Toast.LENGTH_SHORT).show();
-
                     Intent intenet = new Intent(context, NoteDetails.class);
                     intenet.putExtra("title",note.getTitle());
                     intenet.putExtra("content",note.getNote());
